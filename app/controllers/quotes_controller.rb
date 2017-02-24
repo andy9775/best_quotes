@@ -1,8 +1,9 @@
 class QuotesController < Rulers::Controller
-	# return a quote
+  # return a quote
   def a_quote
-    "There is nothing good or bad but thinking makes it so." +
-    "\n<pre>\n#{env}\n</pre>"
+    @test = 'hello'
+    @other = 'other'
+    render :a_quote, noun: 'winking'
   end
 
   def exception
