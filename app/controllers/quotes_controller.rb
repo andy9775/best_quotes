@@ -1,23 +1,28 @@
 class QuotesController < Rulers::Controller
+
+  def index
+    quotes = FileModel.all
+    render :index, locals: { quotes: quotes }
+  end
+
+  def show
+    @quote = FileModel.find params['id']
+  end
+
   # return a quote
   def a_quote
     @test = 'hello'
     @other = 'other'
-    render :a_quote, noun: 'winking'
+    render :a_quote, locals: { noun: 'winking' }
   end
 
 	def quote_1
 		quote_1 = FileModel.find 1
-		render :quote, obj: quote_1
+		render :quote, locals: { obj: quote_1 }
 	end
 
   def exception
     raise 'Something happened'
-  end
-
-  def index
-    quotes = FileModel.all
-    render :index, quotes: quotes
   end
 
   def new_quote
@@ -28,7 +33,7 @@ class QuotesController < Rulers::Controller
     }
 
     m = FileModel.create attrs
-    render :quote, obj: m
+    render :quote, locals: { obj: m }
   end
 
   def update
@@ -36,7 +41,7 @@ class QuotesController < Rulers::Controller
       quote_2 = FileModel.find 2
       quote_2["submitter"] = 'Me'
       quote_2.save
-      render :quote, obj: quote_2
+      render :quote, locals: { obj: quote_2 }
     else
       raise "Invalid method. Expected POST got #{env['REQUEST_METHOD']}"
     end
@@ -44,6 +49,6 @@ class QuotesController < Rulers::Controller
 
   def by_submitter
     submissions = FileModel.find_all_by_submitter('me')
-    render :index, quotes: submissions
+    render :index, locals: { quotes: submissions }
   end
 end
