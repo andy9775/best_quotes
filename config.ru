@@ -50,9 +50,25 @@ end
 
 # gets called last (before send) and uses the result of all below (LIFO)
 use Bench
+use Rack::ContentType
 use ContentLength
 use ModBackground, '#eff59e' # color is passed to initialize
-# similar to rails config.ru file except rails requires
-# config/environment.rb and environment.rb requires the application
+
+# basic routing example
+# map '/' do
+#   run QuotesController.action(:index)
+# end
+
+app = BestQuotes::Application.new
+app.route do
+  root 'quotes#index'
+  get 'sub-app', proc { [200, {}, ['hello sub-app']] }
+  # get 'quotes/show', 'quotes#show'
+  # get ':controller/:id/:action'
+  # get ':controller', default: { action: 'index' }
+  # get ':controller/:id', default: { action: 'show' }
+  resources :quotes
+end
+
 # calls Rulers::Application.call() to get the result
-run BestQuotes::Application.new
+run app

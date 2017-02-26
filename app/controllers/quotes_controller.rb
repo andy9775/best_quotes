@@ -6,7 +6,7 @@ class QuotesController < Rulers::Controller
   end
 
   def show
-    @quote = FileModel.find params['id']
+    @quote = FileModel.find params[:id]
   end
 
   # return a quote
